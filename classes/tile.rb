@@ -7,6 +7,7 @@ class Tile
   def initialize(has_mine)
     @has_mine = has_mine
     @status = :unflagged
+    @adjacent_count = nil
   end
 
   def reveal
