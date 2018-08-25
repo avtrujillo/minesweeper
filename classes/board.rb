@@ -45,4 +45,23 @@ class Board
     return mine_placements
   end
 
+  def adjacent_count(row_coor, column_coor)
+    final_count = 0
+    tile = @board[row_coor][column_coor]
+    raise 'tile not found' unless tile
+    if tile.adjacent_count
+      return tile.adjacent_count
+    else
+      [-1, 0, 1].each do |row_offset|
+        [-1, 0, 1].each do |column_offset|
+          unless (row_offset == 0) && (column_offset == 0)
+            adjacent_tile = @board[row_coor + row_offset][column_coor + column_offset]
+            final_count += 1 if adjacent_tile && adjacent_tile.has_mine
+          end
+        end
+      end
+    end
+    tile.adjacent_count = final_count
+  end
+
 end
