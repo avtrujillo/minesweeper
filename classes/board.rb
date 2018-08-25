@@ -7,7 +7,7 @@ class Board
   }
 
   def initialize(difficulty)
-    tile_and_mine_counts = TILE_AND_MINE_COUNTS[:difficulty]
+    tile_and_mine_counts = TILE_AND_MINE_COUNTS[difficulty]
     @total_mines = tile_and_mine_counts[:mines]
     @board = Array.new
 
@@ -55,8 +55,10 @@ class Board
       [-1, 0, 1].each do |row_offset|
         [-1, 0, 1].each do |column_offset|
           unless (row_offset == 0) && (column_offset == 0)
-            adjacent_tile = @board[row_coor + row_offset][column_coor + column_offset]
-            final_count += 1 if adjacent_tile && adjacent_tile.has_mine
+            if @board[row_coor + row_offset]
+              adjacent_tile = @board[row_coor + row_offset][column_coor + column_offset]
+            end
+            final_count += 1 if adjacent_tile && adjacent_tile.has_mine?
           end
         end
       end
@@ -64,7 +66,7 @@ class Board
     tile.adjacent_count = final_count
   end
 
-  VERTICAL_BAR == '-----------------------'
+  VERTICAL_BAR = '-----------------------'
 
   def display
     @board.each_with_index do |row, row_index|
