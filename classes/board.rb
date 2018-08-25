@@ -11,14 +11,14 @@ class Board
     @total_mines = tile_and_mine_counts[:mines]
     @board = Array.new
 
-    row_count = tile_and_mine_counts[:board_size][1]
-    column_count = tile_and_mine_counts[:board_size][0]
+    @row_count = tile_and_mine_counts[:board_size][1]
+    @column_count = tile_and_mine_counts[:board_size][0]
 
     mine_placements = place_mines(tile_and_mine_counts)
 
-    for r in (0...row_count) do
+    for r in (0...@row_count) do
       row = Array.new
-      for c in (0...column_count) do
+      for c in (0...@column_count) do
         has_mine = mine_placements.any? {|pl| pl == [r, c]}
         row.push(Tile.new(has_mine))
       end
@@ -62,6 +62,24 @@ class Board
       end
     end
     tile.adjacent_count = final_count
+  end
+
+  VERTICAL_BAR == '-----------------------'
+
+  def display
+    @board.each_with_index do |row, row_index|
+      puts VERTICAL_BAR
+      row.each_with_index do |tile, column_index|
+        print '|'
+        if tile.icon.nil?
+          print adjacent_count(row_index, column_index).to_s
+        else
+          print tile.icon
+        end
+      end
+      puts '|'
+    end
+    puts VERTICAL_BAR
   end
 
 end
