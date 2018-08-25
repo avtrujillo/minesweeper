@@ -69,15 +69,13 @@ class Board
   VERTICAL_BAR = '-----------------------'
 
   def display
+    #byebug
     @board.each_with_index do |row, row_index|
       puts VERTICAL_BAR
       row.each_with_index do |tile, column_index|
         print '|'
-        if tile.icon.nil?
-          print adjacent_count(row_index, column_index).to_s
-        else
-          print tile.icon
-        end
+        adjacent_count(row_index, column_index) if tile.icon.nil?
+        tile.icon
       end
       puts '|'
     end
