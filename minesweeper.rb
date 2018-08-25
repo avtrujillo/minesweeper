@@ -6,12 +6,10 @@ $outcome = nil
 
 board = Board.new(:small)
 
-until !$outcome.ni?
-  board.display
-end
+
 
 def prompt(board)
-  response = gets.chomp.downcase.to_symbol
+  response = gets.chomp.downcase.to_sym
   case response
   when :flag
     flag(board)
@@ -27,15 +25,15 @@ def flag(board)
   row = gets.chomp.to_i
   puts "which column is the tile would you like to flag in?"
   column = gets.chomp.to_i
-  board[row, column].flag
+  board.board[row][column].toggle_flag
 end
 
-def reveal
+def reveal(board)
   puts "which row is the tile would you like to reveal in?"
   row = gets.chomp.to_i
   puts "which column is the tile would you like to reveal in?"
   column = gets.chomp.to_i
-  dead = board[row, column].reveal
+  dead = board.board[row][column].reveal
   board.total_mines -= 1
   if dead
     $outcome = :dead
@@ -47,4 +45,9 @@ def reveal
     puts "You are safe. {board.total_mines} mines remaining."
   end
 
+end
+
+until !$outcome.nil?
+  board.display
+  prompt(board)
 end

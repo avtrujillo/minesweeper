@@ -1,5 +1,8 @@
 class Board
 
+  attr_accessor :total_mines
+  attr_reader :board
+
   TILE_AND_MINE_COUNTS = {
     small: {mines: 10, board_size: [9, 9]},
     medium: {mines: 40, board_size: [16, 16]},
@@ -69,13 +72,12 @@ class Board
   VERTICAL_BAR = '-----------------------'
 
   def display
-    #byebug
     @board.each_with_index do |row, row_index|
       puts VERTICAL_BAR
       row.each_with_index do |tile, column_index|
         print '|'
         adjacent_count(row_index, column_index) if tile.icon.nil?
-        tile.icon
+        print tile.icon
       end
       puts '|'
     end

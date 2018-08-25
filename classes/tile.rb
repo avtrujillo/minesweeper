@@ -15,18 +15,15 @@ class Tile
     return @has_mine
   end
 
-  def flag
-    case @status
-    when :revealed
-      raise "tile already revealed"
-    when :unflagged
-      @status = :flagged
-    when :flagged
+  def toggle_flag
+    if @status == :revealed
+      then raise "tile already revealed"
+    elsif @status == :unflagged
       @status = :danger
-    when :danger
-      @status = uncertain
-    when :uncertain
-      @status = unflagged
+    elsif @status == :danger
+      @status = :uncertain
+    elsif @status == :uncertain
+      @status = :unflagged
     else
       raise "invalid status"
     end
@@ -37,15 +34,12 @@ class Tile
   end
 
   def icon
-    case @status
-    when :revealed
+    if @status == :revealed
       return contents_icon
-    when :danger
-    when :unflagged
-    when :uncertain
+    elsif FLAG_ICONS[@status]
       return FLAG_ICONS[@status]
     else
-      raise 'invalid status'
+      raise "invalid status: #{@status}"
     end
   end
 
